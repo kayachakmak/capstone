@@ -19,7 +19,6 @@ export default function Home() {
   if (!data) {
     return;
   }
-  console.log(data);
 
   return (
     <>
@@ -104,6 +103,5 @@ export default function Home() {
     </>
   );
 }
-
 
 // array boş geliyor. yarın ona çalışıyorsun .

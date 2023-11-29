@@ -5,7 +5,10 @@ const { Schema } = mongoose;
 const restaurantSchema = new Schema({
   name: { type: String, required: true },
   type: { type: String, required: true },
-  coordinates: { type: Object, required: true },
+  coordinates: {
+    long: { type: Number, required: true },
+    lat: { type: Number, required: true },
+  },
 });
 
 const Restaurant =
