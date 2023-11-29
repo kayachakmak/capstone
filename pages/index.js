@@ -3,13 +3,23 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import dynamic from "next/dynamic";
+import useSWR from "swr";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const MapWithNoSSR = dynamic(() => import("@/components/Map/Map"), {
   ssr: false,
 });
+
 export default function Home() {
+  const { data, isLoading } = useSWR("/api/restaurants");
+
+  if (isLoading) <h1>Loading...</h1>;
+
+  if (!data) {
+    return;
+  }
+
   return (
     <>
       <Head>
@@ -19,8 +29,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <MapWithNoSSR />
-
+        <MapWithNoSSR restaurants={data} />
         <div className={styles.center}>
           <Image
             className={styles.logo}
@@ -94,3 +103,5 @@ export default function Home() {
     </>
   );
 }
+
+// array boş geliyor. yarın ona çalışıyorsun .
