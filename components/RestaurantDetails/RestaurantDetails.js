@@ -4,6 +4,8 @@ import Image from "next/image";
 const customLoader = ({ src }) => {
   return src;
 };
+
+//hadi bakalım
 export default function RestaurantDetails({ restaurant }) {
   return (
     <>
