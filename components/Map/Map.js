@@ -4,6 +4,8 @@ import L from "leaflet";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import RestaurantPopuP from "../RestaurantPopUp/RestaurantPopUp";
+import { Fragment } from "react";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -25,14 +27,15 @@ export default function Map({ restaurants }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {restaurants.map((restaurant) => (
-        <Marker
-          key={restaurant._id}
-          position={[restaurant.coordinates.lat, restaurant.coordinates.long]}
-        >
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        <Fragment key={restaurant._id}>
+          <Marker
+            position={[restaurant.coordinates.lat, restaurant.coordinates.long]}
+          >
+            <Popup restaurant={restaurant}>
+              <RestaurantPopuP restaurant={restaurant} />
+            </Popup>
+          </Marker>
+        </Fragment>
       ))}
     </MapContainer>
   );
