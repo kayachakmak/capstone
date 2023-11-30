@@ -6,13 +6,15 @@ export default function RestaurantDetailsPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: restaurant, isLoading } = useSWR(`/api/restaurants/${[id]}`);
+  const { data, isLoading } = useSWR(`/api/restaurants/${[id]}`);
 
   if (isLoading) <h1>Loading...</h1>;
 
-  if (!restaurant) {
+  if (!data) {
     return;
   }
 
-  return <RestaurantDetails restaurant={restaurant} />;
+  const { restaurant, comments } = data;
+
+  return <RestaurantDetails restaurant={restaurant} comments={comments} />;
 }

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const commentSchema = new Schema({
-  userID: { type: String, required: true },
+  userID: { type: Number, required: true },
   username: { type: String, required: true },
   comment: { type: String, required: true },
   restaurantID: { type: Schema.Types.ObjectId, ref: "Restaurant" },
