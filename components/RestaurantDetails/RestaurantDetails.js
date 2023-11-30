@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import CommentForm from "../CommentForm/CommentForm";
 
 const customLoader = ({ src }) => {
   return src;
@@ -23,6 +24,8 @@ export default function RestaurantDetails({ restaurant }) {
       <Link href={restaurant.menu} target="_blank">
         See the menu
       </Link>
+
+      <CommentForm />
     </>
   );
 }
