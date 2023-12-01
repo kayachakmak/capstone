@@ -4,13 +4,20 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
+import Link from "next/link";
+import styled from "styled-components";
+import { StyledLink } from "@/components/StyledComponents/StyledLink";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const MapWithNoSSR = dynamic(() => import("@/components/Map/Map"), {
   ssr: false,
 });
-
+const FixedLink = styled(StyledLink)`
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+`;
 export default function Home() {
   const { data, isLoading } = useSWR("/api/restaurants");
 
@@ -31,14 +38,9 @@ export default function Home() {
       <main className={`${styles.main} ${inter.className}`}>
         <MapWithNoSSR restaurants={data} />
         <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
+          <Link href="/create" passHref legacyBehavior>
+            <FixedLink>+ restaurant</FixedLink>
+          </Link>
         </div>
       </main>
     </>

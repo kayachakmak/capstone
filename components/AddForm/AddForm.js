@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { StyledButton } from "./StyledButton.js";
+import { StyledButton } from "../StyledComponents/StyledButton";
+import { useState } from "react";
 
 export const FormContainer = styled.form`
   display: grid;
@@ -23,56 +24,95 @@ export const Textarea = styled.textarea`
 export const Label = styled.label`
   font-weight: bold;
 `;
+const cuisines = [
+  "Turkish",
+  "Chinese",
+  "Italian",
+  "French",
+  "Mexican",
+  "Spanish",
+  "Greek",
+  "Lebanese",
+  "Ethiopian",
+  "Moroccan",
+  "Brazilian",
+  "Peruvian",
+  "Argentine",
+  "American",
+  "Russian",
+  "Indian",
+  "Japanese",
+  "Korean",
+  "Thai",
+  "Vietnamese",
+  "Arabic",
+  "German",
+];
+export default function Form({ onSubmit }) {
+  const [errorMessage, setErrorMessage] = useState("");
 
-export default function Form({ onSubmit, formName, defaultData }) {
-  function handleSubmit(event) {
+  async function getCoordinates(address) {
+    const response = await fetch("/api/getCoordinates", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ address }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch coordinates");
+    }
+
+    return response.json();
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
+    setErrorMessage("");
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    onSubmit(data);
+
+    try {
+      const coordinatesResponse = await getCoordinates(data.address);
+      const coordinates = {
+        lat: parseFloat(coordinatesResponse.lat),
+        long: parseFloat(coordinatesResponse.long),
+      };
+      data.coordinates = coordinates;
+
+      onSubmit(data);
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+      setErrorMessage("Please enter a valid address");
+    }
   }
 
   return (
-    <FormContainer aria-labelledby={formName} onSubmit={handleSubmit}>
-      <Label htmlFor="name">Name</Label>
-      <Input
-        id="name"
-        name="name"
-        type="text"
-        defaultValue={defaultData?.name}
-      />
-      <Label htmlFor="image-url">Image Url</Label>
-      <Input
-        id="image-url"
-        name="image"
-        type="text"
-        defaultValue={defaultData?.image}
-      />
-      <Label htmlFor="location">Location</Label>
-      <Input
-        id="location"
-        name="location"
-        type="text"
-        defaultValue={defaultData?.location}
-      />
-      <Label htmlFor="map-url">Map Url</Label>
-      <Input
-        id="map-url"
-        name="mapURL"
-        type="text"
-        defaultValue={defaultData?.mapURL}
-      />
-      <Label htmlFor="description">Description</Label>
-      <Textarea
-        name="description"
-        id="description"
-        cols="30"
-        rows="10"
-        defaultValue={defaultData?.description}
-      ></Textarea>
-      <StyledButton type="submit">
-        {defaultData ? "Update place" : "Add place"}
-      </StyledButton>
+    <FormContainer onSubmit={handleSubmit}>
+      <Label htmlFor="name">Restaurant Name*:</Label>
+      <Input id="name" name="name" type="text" required />
+      <select name="type">
+        <option required value="">
+          Select Cuisine*
+        </option>
+        {cuisines.map((cuisine) => (
+          <option key={cuisine} value={cuisine}>
+            {cuisine}
+          </option>
+        ))}
+      </select>
+      <Label htmlFor="image">Image Url*:</Label>
+      <Input id="image" name="image" type="text" required />
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      <Label htmlFor="address">Address*:</Label>
+      <Input id="address" name="address" type="text" required />
+      <Label htmlFor="link">Restaurant`s Website:</Label>
+      <Input id="link" name="link" type="text" />
+      <Label htmlFor="link">Restaurant`s Menu:</Label>
+      <Input id="link" name="link" type="text" />
+
+      <StyledButton type="submit">Add restaurant</StyledButton>
     </FormContainer>
   );
 }
