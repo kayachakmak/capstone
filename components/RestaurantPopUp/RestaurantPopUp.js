@@ -1,23 +1,20 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const customLoader = ({ src }) => {
+/* const customLoader = ({ src }) => {
   return src;
-};
+}; */
 
 export default function RestaurantPopuP({ restaurant }) {
   return (
     <>
       <h2>{restaurant.name}</h2>
       <p>
-        {restaurant.type.map((type, index) => (
-          <strong key={index}> |{type}|</strong>
-        ))}
+        <strong>{restaurant.type}</strong>
       </p>
       <p>
         {restaurant.isAnimalFriendly ? (
           <Image
-            loader={customLoader}
             src="@/public/animal-friendly.svg"
             alt="animal friendly logo"
             width={100}
@@ -33,7 +30,6 @@ export default function RestaurantPopuP({ restaurant }) {
         )}
       </p>
       <Image
-        loader={customLoader}
         src={restaurant.image}
         alt={restaurant.name}
         width={100}
