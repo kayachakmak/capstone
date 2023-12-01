@@ -47,6 +47,7 @@ const cuisines = [
   "Vietnamese",
   "Arabic",
   "German",
+  "Malesian",
 ];
 export default function Form({ onSubmit }) {
   const [errorMessage, setErrorMessage] = useState("");
@@ -67,7 +68,7 @@ export default function Form({ onSubmit }) {
     return response.json();
   }
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event, isChecked) {
     event.preventDefault();
     setErrorMessage("");
     const formData = new FormData(event.target);
@@ -79,6 +80,15 @@ export default function Form({ onSubmit }) {
         lat: parseFloat(coordinatesResponse.lat),
         long: parseFloat(coordinatesResponse.long),
       };
+      if (
+        !(
+          13.752948 < coordinates.lat < 13.117115 ||
+          52.340609 < coordinates.long < 52.676616
+        )
+      ) {
+        return setErrorMessage("Please enter a valid address within Berlin");
+      }
+
       data.coordinates = coordinates;
 
       onSubmit(data);
@@ -111,8 +121,15 @@ export default function Form({ onSubmit }) {
       <Input id="link" name="link" type="text" />
       <Label htmlFor="link">Restaurant`s Menu:</Label>
       <Input id="link" name="link" type="text" />
+      <Label htmlFor="isAnimalFriendly">Is restaurant animal friendly?:</Label>
+      <Input type="checkbox" name="isAnimalFriendly" />
+      <Label htmlFor="isChildrenFriendly">
+        Is restaurant children friendly?:
+      </Label>
+      <Input type="checkbox" name="isChildrenFriendly" />
 
       <StyledButton type="submit">Add restaurant</StyledButton>
+      <small>* is required areas.</small>
     </FormContainer>
   );
 }

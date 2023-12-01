@@ -18,7 +18,7 @@ export default function Map({ restaurants }) {
   return (
     <MapContainer
       center={[52.52, 13.405]}
-      zoom={13}
+      zoom={12}
       style={{ height: "500px", width: "100%", borderRadius: "10px" }}
     >
       <TileLayer
@@ -31,7 +31,7 @@ export default function Map({ restaurants }) {
           <Marker
             position={[restaurant.coordinates.lat, restaurant.coordinates.long]}
           >
-            <Popup restaurant={restaurant}>
+            <Popup>
               <RestaurantPopuP restaurant={restaurant} />
             </Popup>
           </Marker>
