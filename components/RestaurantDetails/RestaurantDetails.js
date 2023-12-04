@@ -2,19 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import CommentForm from "../CommentForm/CommentForm";
 import Comments from "../Comments/Comments";
+import { useSession } from "next-auth/react";
 
-const customLoader = ({ src }) => {
-  return src;
-};
-
-//hadi bakalım
 export default function RestaurantDetails({ restaurant, comments }) {
+  const { data: session } = useSession();
   return (
     <>
       <Link href="/"> Go back </Link>
       <h1>{restaurant.name}</h1>
       <Image
-        loader={customLoader}
         src={restaurant.image}
         alt={restaurant.name}
         width={300}
@@ -27,7 +23,7 @@ export default function RestaurantDetails({ restaurant, comments }) {
         See the menu
       </Link>
       <Comments comments={comments} />
-      <CommentForm />
+      {session && <CommentForm />}
     </>
   );
 }

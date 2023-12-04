@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import { mutate } from "swr";
+import { useSession } from "next-auth/react";
 
 export default function CommentForm() {
+  const { data: session } = useSession();
   const router = useRouter();
   const { id } = router.query;
 
@@ -11,8 +13,7 @@ export default function CommentForm() {
     const data = Object.fromEntries(formData);
     event.target.reset();
     data.restaurantID = id;
-    data.userID = 11343;
-    data.username = "kaya";
+    data.username = session.user.name;
     console.log(data);
 
     try {

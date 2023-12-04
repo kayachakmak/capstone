@@ -7,21 +7,17 @@ import useSWR from "swr";
 import Link from "next/link";
 import styled from "styled-components";
 import { StyledLink } from "@/components/StyledComponents/StyledLink";
-import { signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Profile from "@/components/profile";
 
 const inter = Inter({ subsets: ["latin"] });
-
 const MapWithNoSSR = dynamic(() => import("@/components/Map/Map"), {
   ssr: false,
 });
-const FixedLink = styled(StyledLink)`
-  position: fixed;
-  bottom: 50px;
-  right: 50px;
-`;
+
 export default function Home() {
   const { data, isLoading } = useSWR("/api/restaurants");
+  const { data: session } = useSession();
 
   if (isLoading) <h1>Loading...</h1>;
 
@@ -39,13 +35,13 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <Profile />
-        <button onClick={() => signIn("google")}>Sign in with Google</button>
-
         <MapWithNoSSR restaurants={data} />
         <div className={styles.center}>
-          <Link href="/create" passHref legacyBehavior>
-            <FixedLink>+ restaurant</FixedLink>
-          </Link>
+          {session && (
+            <Link href="/create" passHref legacyBehavior>
+              <StyledLink>+ restaurant</StyledLink>
+            </Link>
+          )}
         </div>
       </main>
     </>
