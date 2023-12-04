@@ -7,6 +7,7 @@ export const StyledLink = styled.a`
   color: black;
   text-decoration: none;
   font-weight: bold;
+  z-index: 2;
 
   ${({ justifySelf }) =>
     justifySelf &&

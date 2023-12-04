@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { StyledButton } from "../StyledComponents/StyledButton";
 import { useState } from "react";
+import { cuisines } from "@/public/cuisines";
 
 export const FormContainer = styled.form`
   display: grid;
@@ -24,31 +25,6 @@ export const Textarea = styled.textarea`
 export const Label = styled.label`
   font-weight: bold;
 `;
-const cuisines = [
-  "Turkish",
-  "Chinese",
-  "Italian",
-  "French",
-  "Mexican",
-  "Spanish",
-  "Greek",
-  "Lebanese",
-  "Ethiopian",
-  "Moroccan",
-  "Brazilian",
-  "Peruvian",
-  "Argentine",
-  "American",
-  "Russian",
-  "Indian",
-  "Japanese",
-  "Korean",
-  "Thai",
-  "Vietnamese",
-  "Arabic",
-  "German",
-  "Malesian",
-];
 export default function Form({ onSubmit }) {
   const [errorMessage, setErrorMessage] = useState("");
 
