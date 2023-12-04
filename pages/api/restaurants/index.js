@@ -3,8 +3,14 @@ import Restaurant from "@/db/models/Restaurant";
 
 export default async function handler(req, res) {
   await dbConnect();
+  const { type } = req.query;
+  let query = {};
+  if (type) {
+    query.type = type;
+  }
+
   if (req.method === "GET") {
-    const restaurants = await Restaurant.find();
+    const restaurants = await Restaurant.find(query);
     return res.status(200).json(restaurants);
   } else if (req.method === "POST") {
     try {
