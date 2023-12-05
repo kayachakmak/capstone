@@ -16,9 +16,21 @@ const MapWithNoSSR = dynamic(() => import("@/components/Map/Map"), {
 
 export default function Home() {
   const [filterType, setFilterType] = useState("");
+  const [isAnimalFriendly, setIsAnimalFriendly] = useState("");
+  const [isChildFriendly, setIsChildFriendly] = useState("");
+
   const { data: session } = useSession();
+
+  const params = new URLSearchParams();
+
+  if (filterType) params.append("type", filterType);
+  if (isAnimalFriendly) params.append("animalFriendly", "true");
+  if (isChildFriendly) params.append("childFriendly", "true");
+
+  const queryString = params.toString();
+
   const { data, isLoading, error } = useSWR(
-    filterType ? `/api/restaurants?type=${filterType}` : "/api/restaurants"
+    queryString ? `/api/restaurants?${queryString}` : "/api/restaurants"
   );
 
   if (isLoading) <h1>Loading...</h1>;
@@ -30,7 +42,12 @@ export default function Home() {
   function handleFilterChange(e) {
     setFilterType(e.target.value);
   }
-
+  function handleAnimalChange(e) {
+    setIsAnimalFriendly(e.target.checked);
+  }
+  function handleChildChange(e) {
+    setIsChildFriendly(e.target.checked);
+  }
   return (
     <>
       <Head>
@@ -41,7 +58,14 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <Profile />
-        <FilterBar type={filterType} onChange={handleFilterChange} />
+        <FilterBar
+          type={filterType}
+          onChange={handleFilterChange}
+          animal={isAnimalFriendly}
+          child={isChildFriendly}
+          onAnimalChange={handleAnimalChange}
+          onChildChange={handleChildChange}
+        />
         <MapWithNoSSR restaurants={data} />
         {session && (
           <div>

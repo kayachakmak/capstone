@@ -3,10 +3,16 @@ import Restaurant from "@/db/models/Restaurant";
 
 export default async function handler(req, res) {
   await dbConnect();
-  const { type } = req.query;
+  const { type, animalFriendly, childFriendly } = req.query;
+
   let query = {};
-  if (type) {
-    query.type = type;
+
+  if (type) query.type = type;
+  if (animalFriendly) {
+    query.isAnimalFriendly = animalFriendly === "true";
+  }
+  if (childFriendly) {
+    query.isChildFriendly = childFriendly === "true";
   }
 
   if (req.method === "GET") {
