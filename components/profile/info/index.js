@@ -1,9 +1,21 @@
 import Image from "next/image";
 import AuthButton from "@/components/auth-button/AuthButton";
+import styled from "styled-components";
+
+const ProfileContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const UserName = styled.p`
+  margin-left: 10px;
+  font-size: 1.2em;
+  color: #555;
+`;
 
 export default function ProfileInfo({ session }) {
   return (
-    <>
+    <ProfileContainer>
       <Image
         width={150}
         height={150}
@@ -11,11 +23,8 @@ export default function ProfileInfo({ session }) {
         alt="Avatar"
         priority
       />
-      <div>
-        <h1>Hello {session.user?.name}</h1>
-        <p>You are signed in as {session.user?.email}</p>
-        <AuthButton />
-      </div>
-    </>
+      <UserName>Hello {session.user?.name}</UserName>
+      <AuthButton />
+    </ProfileContainer>
   );
 }

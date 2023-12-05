@@ -14,7 +14,6 @@ export default function CommentForm() {
     event.target.reset();
     data.restaurantID = id;
     data.username = session.user.name;
-    console.log(data);
 
     try {
       const response = await fetch("/api/comments", {

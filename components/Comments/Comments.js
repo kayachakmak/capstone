@@ -34,6 +34,7 @@ export default function Comments({ comments }) {
       body: JSON.stringify(update),
     });
     console.log("update", update);
+
     if (response.ok) {
       mutate(`/api/restaurants/${id}`);
       setEditingCommentId(null);
