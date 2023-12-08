@@ -25,12 +25,12 @@ export default function CreatePlacePage() {
   }
 
   return (
-    <>
+    <div>
       <br></br>
       <Link href="/" passHref legacyBehavior>
         <StyledBackLink>back</StyledBackLink>
       </Link>
       <Form onSubmit={addPlace} formName={"add-place"} />
-    </>
+    </div>
   );
 }

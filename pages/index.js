@@ -1,9 +1,6 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import LoginBar from "@/components/TopLoginBar/TopLoginBar";
 import { useState } from "react";
 import FilterBar from "@/components/FilterBar/FilterBar";
 
@@ -15,8 +12,6 @@ export default function Home() {
   const [filterType, setFilterType] = useState("");
   const [isAnimalFriendly, setIsAnimalFriendly] = useState("");
   const [isChildFriendly, setIsChildFriendly] = useState("");
-
-  const { data: session } = useSession();
 
   const params = new URLSearchParams();
 
@@ -54,7 +49,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <LoginBar />
         <FilterBar
           type={filterType}
           onChange={handleFilterChange}
@@ -64,11 +58,6 @@ export default function Home() {
           onChildChange={handleChildChange}
         />
         <MapWithNoSSR restaurants={data} />
-        {session && (
-          <div>
-            <Link href="/create">Add Restaurant</Link>
-          </div>
-        )}
       </main>
     </>
   );

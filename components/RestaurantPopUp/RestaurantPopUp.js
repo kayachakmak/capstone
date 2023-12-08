@@ -6,13 +6,14 @@ const PopupContainer = styled.div`
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 18, 13, 46);
   max-width: 350px;
   text-align: center;
+  padding-top: 0px;
 `;
 
 const Title = styled.h2`
-  color: #333;
+  color: brown;
   font-size: 1.5em;
   margin-bottom: 0.5em;
 `;
@@ -23,10 +24,6 @@ const RestaurantType = styled.p`
   margin-bottom: 1em;
 `;
 
-const AnimalFriendlyImage = styled(Image)`
-  margin: 10px auto;
-`;
-
 const StyledImage = styled(Image)`
   border-radius: 8px;
   margin-bottom: 1em;
@@ -34,7 +31,7 @@ const StyledImage = styled(Image)`
 
 const AddressLink = styled.a`
   display: block;
-  color: #0077cc;
+  color: plum;
   text-decoration: none;
   margin-bottom: 1em;
   &:hover {
@@ -58,8 +55,28 @@ const DetailsLinkText = styled.a`
 export default function RestaurantPopuP({ restaurant }) {
   return (
     <PopupContainer>
+      <div className="flex justify-end">
+        {restaurant.isAnimalFriendly && (
+          <Image
+            src="https://img.freepik.com/premium-vector/pet-friendly-sign-stamp-with-paw-animal-icon-sticker-allowed-entrance-dog-cat_352905-715.jpg"
+            alt="Animal friendly logo"
+            width={60}
+            height={60}
+          />
+        )}
+        {restaurant.isChildFriendly && (
+          <Image
+            src="https://en.pimg.jp/028/868/870/1/28868870.jpg"
+            alt="Child friendly logo"
+            width={60}
+            height={60}
+          />
+        )}
+      </div>
       <Title>{restaurant.name}</Title>
-      <RestaurantType>{restaurant.type}</RestaurantType>
+      <RestaurantType>
+        <strong>{restaurant.type}</strong>
+      </RestaurantType>
 
       <StyledImage
         src={restaurant.image}
@@ -68,22 +85,6 @@ export default function RestaurantPopuP({ restaurant }) {
         height={200}
         layout="responsive"
       />
-
-      {restaurant.isAnimalFriendly ? (
-        <AnimalFriendlyImage
-          src="@/public/animal-friendly.svg"
-          alt="Animal friendly logo"
-          width={50}
-          height={50}
-        />
-      ) : (
-        <AnimalFriendlyImage
-          src="/public/animal-unfriendly.svg"
-          alt="Animal unfriendly logo"
-          width={50}
-          height={50}
-        />
-      )}
 
       <AddressLink
         href={`https://www.google.com/maps/?q=${restaurant.coordinates.lat},${restaurant.coordinates.long}`}
@@ -94,7 +95,7 @@ export default function RestaurantPopuP({ restaurant }) {
       </AddressLink>
 
       <Link href={`/${restaurant._id}`} passHref>
-        <DetailsLinkText>See More Details</DetailsLinkText>
+        <DetailsLinkText>See More Details </DetailsLinkText>
       </Link>
     </PopupContainer>
   );

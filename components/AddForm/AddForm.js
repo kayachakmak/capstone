@@ -1,55 +1,15 @@
-import styled from "styled-components";
-import { StyledButton } from "../StyledComponents/StyledButton";
 import { useState } from "react";
 import { cuisines } from "@/public/cuisines";
+import getCoordinates from "@/utils/utils";
 
-export const FormContainer = styled.form`
-  display: grid;
-  gap: 0.5rem;
-`;
-
-export const Input = styled.input`
-  padding: 0.5rem;
-  font-size: inherit;
-  border: 3px solid black;
-  border-radius: 0.5rem;
-`;
-
-export const Textarea = styled.textarea`
-  font-family: inherit;
-  border: 3px solid black;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-`;
-
-export const Label = styled.label`
-  font-weight: bold;
-`;
 export default function Form({ onSubmit }) {
   const [errorMessage, setErrorMessage] = useState("");
 
-  async function getCoordinates(address) {
-    const response = await fetch("/api/getCoordinates", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ address }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch coordinates");
-    }
-
-    return response.json();
-  }
-
-  async function handleSubmit(event, isChecked) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessage("");
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-
     try {
       const coordinatesResponse = await getCoordinates(data.address);
       const coordinates = {
@@ -58,15 +18,23 @@ export default function Form({ onSubmit }) {
       };
       if (
         !(
-          13.752948 < coordinates.lat < 13.117115 ||
-          52.340609 < coordinates.long < 52.676616
+          52.340609 < coordinates.lat &&
+          coordinates.lat < 52.676616 &&
+          13.117115 < coordinates.long &&
+          coordinates.long < 13.752948
         )
       ) {
         return setErrorMessage("Please enter a valid address within Berlin");
       }
+      !data.isAnimalFriendly
+        ? (data.isAnimalFriendly = false)
+        : (data.isAnimalFriendly = true);
+
+      !data.isChildFriendly
+        ? (data.isChildFriendly = false)
+        : (data.isChildFriendly = true);
 
       data.coordinates = coordinates;
-
       onSubmit(data);
     } catch (error) {
       console.error("Error fetching coordinates:", error);
@@ -75,37 +43,141 @@ export default function Form({ onSubmit }) {
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <Label htmlFor="name">Restaurant Name*:</Label>
-      <Input id="name" name="name" type="text" required />
-      <select name="type">
-        <option required value="">
-          Select Cuisine*
-        </option>
-        {cuisines.map((cuisine) => (
-          <option key={cuisine} value={cuisine}>
-            {cuisine}
-          </option>
-        ))}
-      </select>
-      <Label htmlFor="image">Image Url*:</Label>
-      <Input id="image" name="image" type="text" required />
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
-      <Label htmlFor="address">Address*:</Label>
-      <Input id="address" name="address" type="text" required />
-      <Label htmlFor="link">Restaurant`s Website:</Label>
-      <Input id="link" name="link" type="text" />
-      <Label htmlFor="link">Restaurant`s Menu:</Label>
-      <Input id="link" name="link" type="text" />
-      <Label htmlFor="isAnimalFriendly">Is restaurant animal friendly?:</Label>
-      <Input type="checkbox" name="isAnimalFriendly" />
-      <Label htmlFor="isChildrenFriendly">
-        Is restaurant children friendly?:
-      </Label>
-      <Input type="checkbox" name="isChildrenFriendly" />
+    <div className="flex items-center justify-center h-screen p-4 rounded-xl">
+      <div
+        className="relative bg-cover bg-no-repeat bg-left rounded-xl w-full h-full "
+        style={{
+          backgroundImage: `url("https://i.ibb.co/Vjtnx5v/DALL-E-2023-12-06-12-37-17-A-classy-and-upscale-banner-for-Gourmet-Berlin-dimensions-1000x200-pixels.png")`,
+          backgroundSize: "50%",
+          boxShadow: "inset 0 0 100px 100px white", // Added box-shadow for the gradient effect
+        }}
+      >
+        <div className="flex items-center justify-end h-full relative z-10">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white bg-opacity-50 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          >
+            <div className="mb-4">
+              <label
+                htmlFor="name"
+                className="block text-green-700 text-sm font-bold mb-2"
+              >
+                Restaurant Name*:
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
 
-      <StyledButton type="submit">Add restaurant</StyledButton>
-      <small>* is required areas.</small>
-    </FormContainer>
+            <div className="mb-4">
+              <select
+                name="type"
+                defaultValue=""
+                className="shadow border rounded w-full py-2 px-3 text-green-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option disabled value="">
+                  Select Cuisine*
+                </option>
+                {cuisines.map((cuisine) => (
+                  <option key={cuisine} value={cuisine}>
+                    {cuisine}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="image"
+                className="block text-green-700 text-sm font-bold mb-2"
+              >
+                Image Url*:
+              </label>
+              <input
+                id="image"
+                name="image"
+                type="text"
+                required
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+
+            {errorMessage && (
+              <div className="text-red-500 text-xs italic">{errorMessage}</div>
+            )}
+
+            <div className="mb-4">
+              <label
+                htmlFor="address"
+                className="block text-green-700 text-sm font-bold mb-2"
+              >
+                Address*:
+              </label>
+              <input
+                id="address"
+                name="address"
+                type="text"
+                required
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="link"
+                className="block text-green-700 text-sm font-bold mb-2"
+              >
+                Restaurant's Website:
+              </label>
+              <input
+                id="link"
+                name="link"
+                type="text"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
+
+            <div className="mb-4 flex items-center">
+              <input type="checkbox" name="isAnimalFriendly" className="mr-2" />
+              <label
+                htmlFor="isAnimalFriendly"
+                className="text-green-700 text-sm font-bold"
+              >
+                Is restaurant animal friendly?
+              </label>
+            </div>
+
+            <div className="mb-6 flex items-center">
+              <input
+                type="checkbox"
+                name="isChildrenFriendly"
+                className="mr-2"
+              />
+              <label
+                htmlFor="isChildrenFriendly"
+                className="text-green-700 text-sm font-bold"
+              >
+                Is restaurant children friendly?
+              </label>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Add restaurant
+              </button>
+            </div>
+
+            <div className="text-xs italic">* is required areas.</div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }
