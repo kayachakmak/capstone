@@ -1,15 +1,9 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import Profile from "@/components/profile";
 import { useState } from "react";
 import FilterBar from "@/components/FilterBar/FilterBar";
 
-const inter = Inter({ subsets: ["latin"] });
 const MapWithNoSSR = dynamic(() => import("@/components/Map/Map"), {
   ssr: false,
 });
@@ -18,8 +12,6 @@ export default function Home() {
   const [filterType, setFilterType] = useState("");
   const [isAnimalFriendly, setIsAnimalFriendly] = useState("");
   const [isChildFriendly, setIsChildFriendly] = useState("");
-
-  const { data: session } = useSession();
 
   const params = new URLSearchParams();
 
@@ -56,8 +48,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <Profile />
+      <main>
         <FilterBar
           type={filterType}
           onChange={handleFilterChange}
@@ -67,11 +58,6 @@ export default function Home() {
           onChildChange={handleChildChange}
         />
         <MapWithNoSSR restaurants={data} />
-        {session && (
-          <div>
-            <Link href="/create">Add Restaurant</Link>
-          </div>
-        )}
       </main>
     </>
   );

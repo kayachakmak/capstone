@@ -17,6 +17,7 @@ L.Icon.Default.mergeOptions({
 export default function Map({ restaurants }) {
   return (
     <MapContainer
+      className="mt-14 rounded-xl"
       center={[52.52, 13.405]}
       zoom={12}
       style={{ height: "500px", width: "100%", borderRadius: "10px" }}
