@@ -80,7 +80,7 @@ export default function RestaurantDetails({ restaurant, comments }) {
       <Title>{restaurant.name}</Title>
       <StyledImage src={restaurant.image} alt={restaurant.name} />
       <ExternalLink href={restaurant.link} target="_blank">
-        Visit {restaurant.name}'s website
+        Visit {restaurant.name}`s website
       </ExternalLink>
       <ExternalLink href={restaurant.menu} target="_blank">
         See the menu

@@ -131,7 +131,7 @@ export default function Form({ onSubmit }) {
                 htmlFor="link"
                 className="block text-green-700 text-sm font-bold mb-2"
               >
-                Restaurant's Website:
+                Restaurant`s Website:
               </label>
               <input
                 id="link"
