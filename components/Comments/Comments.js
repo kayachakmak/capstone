@@ -2,37 +2,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { mutate } from "swr";
-import styled from "styled-components";
-
-const SpeechBalloon = styled.li`
-  border: 2px solid ${(props) => props.borderColor};
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 15px;
-  position: relative;
-  background-color: #f0f0f0;
-  &:after {
-    content: "";
-    position: absolute;
-    border: 10px solid transparent;
-    border-top-color: #f0f0f0;
-    top: 100%;
-    left: 20px;
-  }
-`;
-
-function getRandomColor() {
-  const colors = [
-    "#FF6347",
-    "#4682B4",
-    "#32CD32",
-    "#FFD700",
-    "#DA70D6",
-    "#FF69B4",
-    "#87CEEB",
-  ];
-  return colors[Math.floor(Math.random() * colors.length)];
-}
+import Image from "next/image";
 
 export default function Comments({ comments }) {
   const [editingCommentId, setEditingCommentId] = useState(null);
@@ -41,6 +11,7 @@ export default function Comments({ comments }) {
   const router = useRouter();
   const { id } = router.query;
   const { data: session } = useSession();
+
   async function handleDelete(ID) {
     const response = await fetch(`/api/comments/${ID}`, {
       method: "DELETE",
@@ -72,36 +43,78 @@ export default function Comments({ comments }) {
   }
 
   return (
-    <ul style={{ listStyleType: "none", padding: 0 }}>
+    <ul className="list-none p-0">
       {comments.map((comment) => (
-        <SpeechBalloon key={comment._id} borderColor={getRandomColor()}>
+        <li
+          key={comment._id}
+          className="bg-gray-800 text-white rounded-lg my-4 overflow-hidden relative"
+        >
           {editingCommentId === comment._id ? (
-            <>
+            <div className="p-4">
               <textarea
+                className="w-full p-2 text-black"
+                cols={50}
+                rows={10}
                 value={editedComment}
                 onChange={(e) => setEditedComment(e.target.value)}
               />
-              <button onClick={() => handleSave(comment._id)}>Save</button>
-              <button onClick={() => setEditingCommentId(null)}>Cancel</button>
-            </>
+              <div className="flex justify-between mt-2 ">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => handleSave(comment._id)}
+                >
+                  Save
+                </button>
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => setEditingCommentId(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           ) : (
-            <p>
-              {comment.username} commented: {comment.comment}
-              {comment.username === session?.user.name && (
-                <>
-                  <button
-                    onClick={() => {
-                      handleEdit(comment);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button onClick={() => handleDelete(comment._id)}>x</button>
-                </>
-              )}
-            </p>
+            <div className="flex items-start space-x-4 p-4">
+              <img
+                className="w-12 h-12 rounded-full"
+                src={comment.userimage}
+                alt={comment.username}
+              />
+              <div className="flex-1">
+                <strong>@{comment.username}</strong> commented on {comment.date}
+                <p className="italic">`{comment.comment}`</p>
+                {comment.username === session?.user.name && (
+                  <div className="absolute top-2 right-4 flex space-x-2">
+                    <button
+                      className="p-1"
+                      onClick={() => {
+                        handleEdit(comment);
+                      }}
+                    >
+                      <Image
+                        src="https://i.ibb.co/nbLJ2kQ/edit.png"
+                        alt="Edit"
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                    <button
+                      className="p-1"
+                      onClick={() => handleDelete(comment._id)}
+                    >
+                      <Image
+                        src="https://i.ibb.co/F85nyhC/bin.png"
+                        alt="Delete"
+                        width={20}
+                        height={20}
+                      />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           )}
-        </SpeechBalloon>
+        </li>
       ))}
     </ul>
   );
