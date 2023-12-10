@@ -10,6 +10,7 @@ export default function Form({ onSubmit }) {
     setErrorMessage("");
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+    console.log("first data", data);
     try {
       const coordinatesResponse = await getCoordinates(data.address);
       const coordinates = {
@@ -26,15 +27,16 @@ export default function Form({ onSubmit }) {
       ) {
         return setErrorMessage("Please enter a valid address within Berlin");
       }
-      !data.isAnimalFriendly
-        ? (data.isAnimalFriendly = false)
-        : (data.isAnimalFriendly = true);
+      data.isAnimalFriendly
+        ? (data.isAnimalFriendly = true)
+        : (data.isAnimalFriendly = false);
 
-      !data.isChildFriendly
-        ? (data.isChildFriendly = false)
-        : (data.isChildFriendly = true);
+      data.isChildFriendly
+        ? (data.isChildFriendly = true)
+        : (data.isChildFriendly = false);
 
       data.coordinates = coordinates;
+      console.log("last data", data);
       onSubmit(data);
     } catch (error) {
       console.error("Error fetching coordinates:", error);
@@ -140,6 +142,20 @@ export default function Form({ onSubmit }) {
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
               />
             </div>
+            <div className="mb-4">
+              <label
+                htmlFor="menu"
+                className="block text-green-700 text-sm font-bold mb-2"
+              >
+                Restaurant`s Menu:
+              </label>
+              <input
+                id="menu"
+                name="menu"
+                type="text"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+            </div>
 
             <div className="mb-4 flex items-center">
               <input type="checkbox" name="isAnimalFriendly" className="mr-2" />
@@ -152,13 +168,9 @@ export default function Form({ onSubmit }) {
             </div>
 
             <div className="mb-6 flex items-center">
-              <input
-                type="checkbox"
-                name="isChildrenFriendly"
-                className="mr-2"
-              />
+              <input type="checkbox" name="isChildFriendly" className="mr-2" />
               <label
-                htmlFor="isChildrenFriendly"
+                htmlFor="isChildFriendly"
                 className="text-green-700 text-sm font-bold"
               >
                 Is restaurant children friendly?

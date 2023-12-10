@@ -13,3 +13,12 @@ export default async function getCoordinates(address) {
 
   return response.json();
 }
+
+export function getCurrentDate() {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0"); // adds leading zero if needed
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // January is 0
+  const year = today.getFullYear();
+
+  return day + "/" + month + "/" + year;
+}
