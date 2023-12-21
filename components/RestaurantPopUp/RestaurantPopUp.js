@@ -56,7 +56,7 @@ export default function RestaurantPopuP({ restaurant }) {
             src="https://en.pimg.jp/028/868/870/1/28868870.jpg"
             alt="Child friendly logo"
             width={60}
-            height="{60}"
+            height={60}
           />
         )}
       </div>
