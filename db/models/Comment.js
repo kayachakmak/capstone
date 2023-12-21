@@ -8,6 +8,7 @@ const commentSchema = new Schema({
   date: { type: String, required: true },
   userimage: { type: String, required: true },
   restaurantID: { type: Schema.Types.ObjectId, ref: "Restaurant" },
+  editDate: { type: String },
 });
 
 const Comment =

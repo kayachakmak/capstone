@@ -10,7 +10,6 @@ export default function Form({ onSubmit }) {
     setErrorMessage("");
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
-    console.log("first data", data);
     try {
       const coordinatesResponse = await getCoordinates(data.address);
       const coordinates = {
@@ -36,7 +35,7 @@ export default function Form({ onSubmit }) {
         : (data.isChildFriendly = false);
 
       data.coordinates = coordinates;
-      console.log("last data", data);
+      console.log("the place", data);
       onSubmit(data);
     } catch (error) {
       console.error("Error fetching coordinates:", error);
@@ -45,19 +44,18 @@ export default function Form({ onSubmit }) {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen p-4 rounded-xl">
+    <div className="flex items-center justify-center h-screen p-4">
       <div
-        className="relative bg-cover bg-no-repeat bg-left rounded-xl w-full h-full "
+        className="relative bg-cover bg-no-repeat bg-right w-full h-full "
         style={{
-          backgroundImage: `url("https://i.ibb.co/Vjtnx5v/DALL-E-2023-12-06-12-37-17-A-classy-and-upscale-banner-for-Gourmet-Berlin-dimensions-1000x200-pixels.png")`,
-          backgroundSize: "50%",
+          backgroundImage: `url("https://i.ibb.co/pbR0cBv/DALL-E-2023-12-11-10-29-46-A-high-opacity-background-image-with-a-subtle-elegant-assortment-of-food.png")`,
           boxShadow: "inset 0 0 100px 100px white", // Added box-shadow for the gradient effect
         }}
       >
-        <div className="flex items-center justify-end h-full relative z-10">
+        <div className="flex items-center justify-center h-full">
           <form
             onSubmit={handleSubmit}
-            className="bg-white bg-opacity-50 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            className="bg-white bg-opacity-80 shadow-md rounded px-12 pt-8 pb-8 mb-4 w-full md:w-3/4 lg:w-1/3"
           >
             <div className="mb-4">
               <label
@@ -180,9 +178,9 @@ export default function Form({ onSubmit }) {
             <div className="flex items-center justify-between">
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="text-indigo-600 dark:text-white border-indigo-600 dark:border-indigo-400 hover:bg-indigo-600 hover:border-indigo-500 inline-flex items-center justify-center rounded-md border py-4 px-10 text-center text-base transition hover:text-white lg:px-8"
               >
-                Add restaurant
+                Add the restaurant
               </button>
             </div>
 

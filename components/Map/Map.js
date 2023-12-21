@@ -20,7 +20,7 @@ export default function Map({ restaurants }) {
       className="mt-8 "
       center={[52.52, 13.405]}
       zoom={12}
-      style={{ height: "500px", width: "100%", borderRadius: "100px" }}
+      style={{ height: "500px", width: "100%", borderRadius: "20px" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
