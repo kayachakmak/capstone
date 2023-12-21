@@ -1,12 +1,6 @@
 import Link from "next/link.js";
-import styled from "styled-components";
 import { useRouter } from "next/router";
-import { StyledLink } from "@/components/StyledComponents/StyledLink";
 import Form from "@/components/AddForm/AddForm";
-
-const StyledBackLink = styled(StyledLink)`
-  justify-self: flex-start;
-`;
 
 export default function CreatePlacePage() {
   const router = useRouter();
@@ -19,16 +13,32 @@ export default function CreatePlacePage() {
       },
       body: JSON.stringify(place),
     });
-    console.log("the place: ", place);
-
+    alert("Rerstaurant successfully added!");
     router.push("/");
   }
 
   return (
     <div>
       <br></br>
-      <Link href="/" passHref legacyBehavior>
-        <StyledBackLink>back</StyledBackLink>
+      <Link
+        className="inline-flex ml-80 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700"
+        href="/"
+      >
+        <svg
+          className="w-5 h-5 rtl:rotate-180"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+          />
+        </svg>
+        <span>Go back</span>
       </Link>
       <Form onSubmit={addPlace} formName={"add-place"} />
     </div>

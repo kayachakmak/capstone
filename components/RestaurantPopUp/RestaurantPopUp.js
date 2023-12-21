@@ -39,19 +39,6 @@ const AddressLink = styled.a`
   }
 `;
 
-const DetailsLinkText = styled.a`
-  display: block;
-  background-color: #0077cc;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 4px;
-  text-decoration: none;
-  &:hover {
-    background-color: #0056a3;
-    text-decoration: none;
-  }
-`;
-
 export default function RestaurantPopuP({ restaurant }) {
   return (
     <PopupContainer>
@@ -94,9 +81,7 @@ export default function RestaurantPopuP({ restaurant }) {
         <strong>Address:</strong> {restaurant.address}
       </AddressLink>
 
-      <Link href={`/${restaurant._id}`} passHref>
-        <DetailsLinkText>See More Details </DetailsLinkText>
-      </Link>
+      <Link href={`/${restaurant._id}`}>See More Details</Link>
     </PopupContainer>
   );
 }

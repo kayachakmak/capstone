@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { mutate } from "swr";
 import Image from "next/image";
+import { getCurrentDate } from "@/utils/utils";
 
 export default function Comments({ comments }) {
   const [editingCommentId, setEditingCommentId] = useState(null);
@@ -13,11 +14,15 @@ export default function Comments({ comments }) {
   const { data: session } = useSession();
 
   async function handleDelete(ID) {
-    const response = await fetch(`/api/comments/${ID}`, {
-      method: "DELETE",
-    });
-    if (response.ok) {
-      mutate(`/api/restaurants/${id}`);
+    const confirmDelete = window.confirm("Do you want to delete this comment?");
+
+    if (confirmDelete) {
+      const response = await fetch(`/api/comments/${ID}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        mutate(`/api/restaurants/${id}`);
+      }
     }
   }
   const handleEdit = (comment) => {
@@ -26,7 +31,8 @@ export default function Comments({ comments }) {
   };
 
   async function handleSave(ID) {
-    const update = { comment: editedComment };
+    const editdate = getCurrentDate();
+    const update = { comment: editedComment, editDate: editdate };
 
     const response = await fetch(`/api/comments/${ID}`, {
       method: "PUT",
@@ -78,11 +84,16 @@ export default function Comments({ comments }) {
               <img
                 className="w-12 h-12 rounded-full"
                 src={comment.userimage}
-                alt={comment.username}
+                alt={comment._id}
               />
               <div className="flex-1">
                 <strong>@{comment.username}</strong> commented on {comment.date}
                 <p className="italic">`{comment.comment}`</p>
+                {comment.editDate && (
+                  <small className="absolute bottom-0 right-2">
+                    Edited on {comment.editDate}
+                  </small>
+                )}
                 {comment.username === session?.user.name && (
                   <div className="absolute top-2 right-4 flex space-x-2">
                     <button

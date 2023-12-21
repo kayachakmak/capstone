@@ -82,7 +82,7 @@ export default function FilterBar({
           Animal Friendly
         </CheckboxLabel>
       </FilterContent>
-      {session && <Link href="/create">Add a New Restaurant</Link>}
+      {session && <StyledLink href="/create">Add a New Restaurant</StyledLink>}
     </FilterContainer>
   );
 }
