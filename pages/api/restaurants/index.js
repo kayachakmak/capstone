@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   let query = {};
 
   if (type) query.type = type;
+
   if (animalFriendly) {
     query.isAnimalFriendly = animalFriendly === "true";
   }
@@ -20,9 +21,20 @@ export default async function handler(req, res) {
     return res.status(200).json(restaurants);
   } else if (req.method === "POST") {
     try {
-      const restaurant = req.body;
-      await Restaurant.create(restaurant);
-      res.status(201).json({ status: "Restaurant successfully created" });
+      const { lat, long } = req.body.coordinates;
+      const existingLocation = await Restaurant.find({
+        "coordinates.lat": lat,
+        "coordinates.long": long,
+      });
+      console.log("existing location:", existingLocation);
+
+      if (existingLocation.length > 0) {
+        res.status(409).json({ message: "Restaurant already exists" });
+      } else {
+        const restaurant = req.body;
+        await Restaurant.create(restaurant);
+        res.status(201).json({ status: "Restaurant successfully created" });
+      }
     } catch (error) {
       console.log(error);
       res

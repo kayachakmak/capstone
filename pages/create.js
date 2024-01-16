@@ -7,6 +7,7 @@ import { useEffect } from "react";
 export default function CreatePlacePage() {
   const router = useRouter();
   const { data: session, status } = useSession();
+
   useEffect(() => {
     if (status !== "loading" && !session) {
       router.push("/");
@@ -21,7 +22,14 @@ export default function CreatePlacePage() {
       },
       body: JSON.stringify(place),
     });
-    alert("Rerstaurant successfully added!");
+    const data = await response.json();
+    console.log(data);
+
+    if (!response.ok) {
+      return alert(data.message);
+    }
+
+    alert("Restaurant successfully added!");
     router.push("/");
   }
 

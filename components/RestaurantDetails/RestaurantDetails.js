@@ -94,12 +94,16 @@ export default function RestaurantDetails({ restaurant, comments }) {
 
       <Title>{restaurant.name}</Title>
       <StyledImage src={restaurant.image} alt={restaurant.name} />
-      <LeftAlignedLink href={restaurant.link} target="_blank">
-        Visit {restaurant.name}`s website
-      </LeftAlignedLink>
-      <LeftAlignedLink href={restaurant.menu} target="_blank">
-        See the menu
-      </LeftAlignedLink>
+      {restaurant.link && (
+        <LeftAlignedLink href={restaurant.link} target="_blank">
+          Visit {restaurant.name}`s website
+        </LeftAlignedLink>
+      )}
+      {restaurant.menu && (
+        <LeftAlignedLink href={restaurant.menu} target="_blank">
+          See the menu
+        </LeftAlignedLink>
+      )}
       <RightAlignedText>
         <strong>Address:</strong> {restaurant.address}
       </RightAlignedText>
