@@ -25,10 +25,10 @@ export default function Comments({ comments }) {
       }
     }
   }
-  const handleEdit = (comment) => {
+  function handleEdit(comment) {
     setEditingCommentId(comment._id);
     setEditedComment(comment.comment);
-  };
+  }
 
   async function handleSave(ID) {
     const editdate = getCurrentDate();

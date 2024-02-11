@@ -16,6 +16,6 @@ export default function Profile() {
       <div className="flex h-full justify-between items-end	 ">
         {session ? <ProfileInfo session={session} /> : <SignIn />}
       </div>
-    </div>
+    </div>  
   );
 }

@@ -1,47 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import styled from "styled-components";
-
-const PopupContainer = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 18, 13, 46);
-  max-width: 350px;
-  text-align: center;
-  padding-top: 0px;
-`;
-
-const Title = styled.h2`
-  color: brown;
-  font-size: 1.5em;
-  margin-bottom: 0.5em;
-`;
-
-const RestaurantType = styled.p`
-  color: #555;
-  font-size: 1em;
-  margin-bottom: 1em;
-`;
-
-const StyledImage = styled(Image)`
-  border-radius: 8px;
-  margin-bottom: 1em;
-`;
-
-const AddressLink = styled.a`
-  display: block;
-  color: plum;
-  text-decoration: none;
-  margin-bottom: 1em;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 export default function RestaurantPopuP({ restaurant }) {
   return (
-    <PopupContainer>
+    <div className="bg-white p-5 rounded-lg shadow-md max-w-sm text-center">
       <div className="flex justify-end">
         {restaurant.isAnimalFriendly && (
           <Image
@@ -60,12 +22,13 @@ export default function RestaurantPopuP({ restaurant }) {
           />
         )}
       </div>
-      <Title>{restaurant.name}</Title>
-      <RestaurantType>
+      <h2 className="text-brown text-lg mb-2">{restaurant.name}</h2>
+      <p className="text-gray-600 text-base mb-4">
         <strong>{restaurant.type}</strong>
-      </RestaurantType>
+      </p>
 
-      <StyledImage
+      <Image
+        className="rounded-lg mb-4"
         src={restaurant.image}
         alt={restaurant.name}
         width={300}
@@ -73,15 +36,16 @@ export default function RestaurantPopuP({ restaurant }) {
         layout="responsive"
       />
 
-      <AddressLink
+      <Link
+        className="block text-plum no-underline mb-4 hover:underline"
         href={`https://www.google.com/maps/?q=${restaurant.coordinates.lat},${restaurant.coordinates.long}`}
         target="_blank"
         rel="noopener noreferrer"
       >
         <strong>Address:</strong> {restaurant.address}
-      </AddressLink>
+      </Link>
 
       <Link href={`/${restaurant._id}`}>See More Details</Link>
-    </PopupContainer>
+    </div>
   );
 }

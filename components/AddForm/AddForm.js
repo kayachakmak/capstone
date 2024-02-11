@@ -107,7 +107,7 @@ export default function Form({ onSubmit }) {
             </div>
 
             {errorMessage && (
-              <div className="text-red-500 text-xs italic">{errorMessage}</div>
+              <div className="text-xs italic text-red-600 ">{errorMessage}</div>
             )}
 
             <div className="mb-4">
