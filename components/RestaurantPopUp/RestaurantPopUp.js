@@ -31,8 +31,8 @@ export default function RestaurantPopuP({ restaurant }) {
         className="rounded-lg mb-4"
         src={restaurant.image}
         alt={restaurant.name}
-        width={300}
-        height={200}
+        width={100}
+        height={100}
         layout="responsive"
       />
 
