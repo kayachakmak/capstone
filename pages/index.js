@@ -37,9 +37,11 @@ export default function Home() {
   function handleAnimalChange(e) {
     setIsAnimalFriendly(e.target.checked);
   }
+
   function handleChildChange(e) {
     setIsChildFriendly(e.target.checked);
   }
+
   return (
     <>
       <Head>

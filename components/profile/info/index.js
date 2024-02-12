@@ -4,16 +4,19 @@ import AuthButton from "@/components/auth-button/AuthButton";
 export default function ProfileInfo({ session }) {
   return (
     <>
-      <div className="flex  flex-col-reverse items-start space-x-4">
-        <p className=" text-gray-700 ml-4">Welcome, {session.user.name}</p>
+      <div className="flex  items-start space-x-4">
         <Image
-          width={80}
-          height={80}
+          width={50}
+          height={50}
           className="rounded-full"
           src={session.user.image}
           alt="Avatar"
           priority
         />
+        <p className=" text-gray-700 ml-4">
+          Welcome, <br />
+          <i>{session.user.name}</i>
+        </p>
       </div>
 
       <AuthButton />

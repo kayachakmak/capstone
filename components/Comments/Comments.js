@@ -25,10 +25,10 @@ export default function Comments({ comments }) {
       }
     }
   }
-  const handleEdit = (comment) => {
+  function handleEdit(comment) {
     setEditingCommentId(comment._id);
     setEditedComment(comment.comment);
-  };
+  }
 
   async function handleSave(ID) {
     const editdate = getCurrentDate();
@@ -53,7 +53,7 @@ export default function Comments({ comments }) {
       {comments.map((comment) => (
         <li
           key={comment._id}
-          className="bg-gray-800 text-white rounded-lg my-4 overflow-hidden relative"
+          className="bg-purple-400 text-black rounded-lg my-4 overflow-hidden relative"
         >
           {editingCommentId === comment._id ? (
             <div className="p-4">

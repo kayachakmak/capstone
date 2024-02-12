@@ -3,77 +3,15 @@ import Image from "next/image";
 import CommentForm from "../CommentForm/CommentForm";
 import Comments from "../Comments/Comments";
 import { useSession } from "next-auth/react";
-import styled from "styled-components";
-
-const Container = styled.div`
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f8f8f8;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  position: relative;
-`;
-
-const Title = styled.h1`
-  color: #333;
-  font-size: 2.5em;
-  margin-bottom: 15px;
-  text-align: center;
-`;
-
-const StyledImage = styled.img`
-  display: block; /* Add this to ensure it's a block-level element */
-  width: 50%;
-  height: auto;
-  margin-left: auto; /* Center the image */
-  margin-right: auto; /* Center the image */
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const ExternalLink = styled.a`
-  display: block;
-  color: #0077cc;
-  margin: 10px 0;
-  font-size: 1.1em;
-  text-decoration: none;
-  &:hover {
-    color: #0056a3;
-    text-decoration: underline;
-  }
-`;
-
-const DirectionLink = styled(ExternalLink)`
-  font-weight: bold;
-  color: #008000;
-  &:hover {
-    color: #006400;
-  }
-`;
-const LeftAlignedLink = styled(ExternalLink)`
-  text-align: left;
-  margin-left: 20px;
-`;
-
-const RightAlignedText = styled.p`
-  text-align: right;
-  margin-right: 4px;
-  /* Rest of your styles */
-`;
-const CommentsSection = styled.div`
-  margin-top: 30px;
-`;
 
 export default function RestaurantDetails({ restaurant, comments }) {
   const { data: session } = useSession();
 
   return (
-    <Container>
+    <div className="grid w-3/4 mx-auto mt-2 bg-gray-100 rounded-lg shadow-md ">
       <Link
         href="/"
-        className="inline-flex px-5 py-2 text-sm ml-16 text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700"
+        className="absolute flex px-5 py-2 text-sm text-gray-300 transition-colors duration-200 bg-white border rounded-lg gap-x-2 dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700"
       >
         <svg
           className="w-5 h-5 rtl:rotate-180"
@@ -92,33 +30,50 @@ export default function RestaurantDetails({ restaurant, comments }) {
         <span>Go back</span>
       </Link>
 
-      <Title>{restaurant.name}</Title>
-      <StyledImage src={restaurant.image} alt={restaurant.name} />
+      <h1 className="text-gray-800 text-2xl mt-10 mb-6 text-center">
+        {restaurant.name}
+      </h1>
+      <Image
+        className="block mx-auto rounded-lg mb-5 shadow-md relative"
+        width={100}
+        height={200}
+        layout="responsive"
+        src={restaurant.image}
+        alt={restaurant.name}
+      />
       {restaurant.link && (
-        <LeftAlignedLink href={restaurant.link} target="_blank">
+        <Link
+          className="block text-blue-600 hover:text-blue-800 hover:underline my-4 text-lg no-underline text-left ml-5"
+          href={restaurant.link}
+          target="_blank"
+        >
           Visit {restaurant.name}`s website
-        </LeftAlignedLink>
+        </Link>
       )}
       {restaurant.menu && (
-        <LeftAlignedLink href={restaurant.menu} target="_blank">
+        <Link
+          className="block text-blue-600 hover:text-blue-800 hover:underline my-4 text-lg no-underline text-left ml-5"
+          href={restaurant.menu}
+          target="_blank"
+        >
           See the menu
-        </LeftAlignedLink>
+        </Link>
       )}
-      <RightAlignedText>
+      <p className="block text-blue-600 hover:text-blue-800  my-4 text-lg no-underline text-right ">
         <strong>Address:</strong> {restaurant.address}
-      </RightAlignedText>
-      <DirectionLink
-        className="text-right mr-5"
+      </p>
+      <Link
+        className="block text-right font-bold text-green-600 hover:text-green-800 hover:underline my-4 text-lg no-underline"
         href={`https://www.google.com/maps/?q=${restaurant.coordinates.lat},${restaurant.coordinates.long}`}
         target="_blank"
         rel="noopener noreferrer"
       >
         Get the directions on Google Maps
-      </DirectionLink>
-      <CommentsSection>
+      </Link>
+      <div className="mt-10">
         <Comments comments={comments} />
         {session && <CommentForm />}
-      </CommentsSection>
-    </Container>
+      </div>
+    </div>
   );
 }
