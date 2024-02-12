@@ -86,7 +86,7 @@ export default function Comments({ comments }) {
                 src={comment.userimage}
                 alt={comment._id}
               />
-              <div className="flex-1">
+              <div className="flex-1 mt-2">
                 <strong>@{comment.username}</strong> commented on {comment.date}
                 <p className="italic">`{comment.comment}`</p>
                 {comment.editDate && (
@@ -95,7 +95,7 @@ export default function Comments({ comments }) {
                   </small>
                 )}
                 {comment.username === session?.user.name && (
-                  <div className="absolute top-2 right-4 flex space-x-2">
+                  <div className="absolute top-0 right-2 flex space-x-2">
                     <button
                       className="p-1"
                       onClick={() => {

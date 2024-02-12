@@ -46,14 +46,14 @@ export default function Form({ onSubmit }) {
 
   return (
     <div
-      className="grid p-4 bg-content bg-center bg-no-repeat "
+      className="grid p-4 bg-content bg-center bg-no-repeat"
       style={{
         backgroundImage: `url("https://i.ibb.co/pbR0cBv/DALL-E-2023-12-11-10-29-46-A-high-opacity-background-image-with-a-subtle-elegant-assortment-of-food.png")`,
         boxShadow: "inset 0 0 100px 100px white", // Added box-shadow for the gradient effect
       }}
     >
       <Link
-        className="absolute inline-flex px-5 py-2 z-10 text-sm text-gray-400 transition-colors duration-200 bg-green-500 border rounded-lg gap-x-2  dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700"
+        className="absolute md:justify-self-center inline-flex px-5 py-2 z-10 text-sm text-green-700 transition-colors duration-200  border border-indigo-600  rounded-lg gap-x-2   hover:bg-gray-100 "
         href="/"
       >
         <svg
@@ -182,7 +182,7 @@ export default function Form({ onSubmit }) {
               htmlFor="isAnimalFriendly"
               className="text-green-700 text-sm font-bold"
             >
-              Is restaurant animal friendly?
+              Is the restaurant animal friendly?
             </label>
           </div>
 
@@ -192,14 +192,14 @@ export default function Form({ onSubmit }) {
               htmlFor="isChildFriendly"
               className="text-green-700 text-sm font-bold"
             >
-              Is restaurant children friendly?
+              Is the restaurant children friendly?
             </label>
           </div>
 
           <div className="flex items-center justify-between">
             <button
               type="submit"
-              className="text-green-700 dark:text-white border-indigo-600 dark:border-indigo-400 hover:bg-indigo-600 hover:border-indigo-500 inline-flex items-center justify-center rounded-md border py-4 px-10 text-center text-base transition hover:text-white lg:px-8"
+              className="text-green-700 border-indigo-600  hover:bg-indigo-600 hover:border-indigo-500 inline-flex items-center justify-center rounded-md border py-4 px-10 text-center text-base transition hover:text-white lg:px-8"
             >
               Add the restaurant
             </button>

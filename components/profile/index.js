@@ -1,7 +1,6 @@
 import SignIn from "./sign-in";
 import ProfileInfo from "./info";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 
 export default function Profile() {
   const { data: session } = useSession();
