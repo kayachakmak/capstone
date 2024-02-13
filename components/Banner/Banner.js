@@ -2,9 +2,9 @@ import Image from "next/image";
 
 export default function Banner() {
   return (
-    <div className="bg-banner flex justify-center items-center  lg:max-2xl:h-26">
+    <div className="bg-banner flex justify-center items-center md:h-20">
       <Image
-        className="w-full lg:max-2xl:h-26 "
+        className="h-full object-contain"
         src="https://i.ibb.co/YBpQRrj/Capture.png"
         alt="Gourmet Berlin Banner"
         width={1090}
